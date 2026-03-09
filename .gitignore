@@ -1,0 +1,23 @@
+DerivedData/
+build/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcuserstate
+
+# Swift Package Manager
+.build/
+
+# Cocoapods / Carthage (not used but safe to ignore)
+Pods/
+Carthage/Build/
+
+# Secrets / local configs
+*.env
+*.secret
+Secrets.plist
+Config.local.plist
+*.xcconfig.local
+
+# System files
+.DS_Store
+
