@@ -1,0 +1,13 @@
+//
+//  Env-Prod.xcconfig
+//  ThmanyahTestApp
+//
+//  Created by Nour-Eddine Legragui  on 9/3/2026.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+// Staging API configuration
+BASE_API_URL = https://api-v2-b2sit6oh3a-uc.a.run.app
+SEARCH_API_URL = https://mock.apidog.com/m1/735111-711675-default
