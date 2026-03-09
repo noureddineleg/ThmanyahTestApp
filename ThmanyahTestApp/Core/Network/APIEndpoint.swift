@@ -8,18 +8,20 @@
 import Foundation
 
 enum APIEndpoint {
-    case homeSections
+    case homeSections(page: Int)
     case search(query: String)
-    
+}
+
+extension APIEndpoint: Endpoint {
     var baseURL: String {
         switch self {
         case .homeSections:
-            return "https://api-v2-b2sit6oh3a-uc.a.run.app"
+            return AppConfig.baseAPIURL
         case .search:
-            return "https://mock.apidog.com/m1/735111-711675-default"
+            return AppConfig.searchAPIURL
         }
     }
-    
+
     var path: String {
         switch self {
         case .homeSections:
@@ -28,31 +30,36 @@ enum APIEndpoint {
             return "/search"
         }
     }
-    
+
     var method: HTTPMethod {
         switch self {
         case .homeSections, .search:
             return .get
         }
     }
-    
+
     var queryItems: [URLQueryItem]? {
         switch self {
-        case .homeSections:
-            return nil
+        case .homeSections(let page):
+            return [URLQueryItem(name: "page", value: "\(page)")]
         case .search(let query):
             return [URLQueryItem(name: "q", value: query)]
         }
     }
-    
-    func asURL() throws -> URL {
-        guard var components = URLComponents(string: baseURL + path) else {
-            throw NetworkError.invalidURL
+
+    var headers: [String: String] {
+        [
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        ]
+    }
+
+    var mockFileName: String? {
+        switch self {
+        case .homeSections:
+            return "home_sections"
+        case .search:
+            return "search_results"
         }
-        components.queryItems = queryItems
-        guard let url = components.url else {
-            throw NetworkError.invalidURL
-        }
-        return url
     }
 }
