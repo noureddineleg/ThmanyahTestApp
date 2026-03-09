@@ -29,9 +29,22 @@
 		B76B3A832F5EDD6F0004DCD3 /* ThmanyahTestAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThmanyahTestAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B76B3AAC2F5EE2220004DCD3 /* Exceptions for "ThmanyahTestApp" folder in "ThmanyahTestApp" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B76B3A6B2F5EDD6C0004DCD3 /* ThmanyahTestApp */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B76B3A6E2F5EDD6C0004DCD3 /* ThmanyahTestApp */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B76B3AAC2F5EE2220004DCD3 /* Exceptions for "ThmanyahTestApp" folder in "ThmanyahTestApp" target */,
+			);
 			path = ThmanyahTestApp;
 			sourceTree = "<group>";
 		};
@@ -400,6 +413,7 @@
 				DEVELOPMENT_TEAM = NXYMWDBP2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ThmanyahTestApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ThamanyahApp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,6 +453,7 @@
 				DEVELOPMENT_TEAM = NXYMWDBP2R;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ThmanyahTestApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ThamanyahApp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
