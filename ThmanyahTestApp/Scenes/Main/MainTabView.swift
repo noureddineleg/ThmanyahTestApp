@@ -110,21 +110,25 @@ struct HomeRootView: View {
                     ScrollView {
                         LazyVStack(alignment: .trailing, spacing: 24) {
                             ForEach(sections) { section in
-                                VStack(alignment: .trailing, spacing: 12) {
-                                    Text(section.name)
-                                        .font(.headline)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                if isTrendingEpisodes(section) {
+                                    TrendingEpisodesGridSectionView(section: section)
+                                } else {
+                                    VStack(alignment: .trailing, spacing: 12) {
+                                        Text(section.name)
+                                            .font(.headline)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
 
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        LazyHStack(spacing: 16) {
-                                            ForEach(section.identifiedItems) { row in
-                                                HomeItemCardView(item: row.item)
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            LazyHStack(spacing: 16) {
+                                                ForEach(section.identifiedItems) { row in
+                                                    HomeItemCardView(item: row.item)
+                                                }
                                             }
+                                            .padding(.horizontal)
                                         }
-                                        .padding(.horizontal)
                                     }
+                                    .padding(.horizontal)
                                 }
-                                .padding(.horizontal)
                             }
                         }
                         .padding(.vertical)
@@ -149,6 +153,11 @@ struct HomeRootView: View {
         }
         isLoading = false
     }
+
+    private func isTrendingEpisodes(_ section: Section) -> Bool {
+        section.contentType == .episode &&
+        section.name.localizedCaseInsensitiveContains("trending")
+    }
 }
 
 private struct HomeItemCardView: View {
@@ -156,28 +165,57 @@ private struct HomeItemCardView: View {
 
     var body: some View {
         VStack(alignment: .trailing, spacing: 8) {
-            if let url = item.imageURL {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty:
-                        Color.gray.opacity(0.2)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    case .failure:
-                        Color.gray.opacity(0.2)
-                    @unknown default:
-                        Color.gray.opacity(0.2)
+            ZStack {
+                if let url = item.imageURL {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            Color.gray.opacity(0.2)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        case .failure:
+                            Color.gray.opacity(0.2)
+                        @unknown default:
+                            Color.gray.opacity(0.2)
+                        }
+                    }
+                } else {
+                    Color.gray.opacity(0.2)
+                }
+
+                VStack {
+                    HStack {
+                        if let episodeBadge = episodeBadgeText {
+                            Text(episodeBadge)
+                                .font(.caption2.bold())
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 4)
+                                .background(Color.black.opacity(0.7))
+                                .foregroundColor(.white)
+                                .clipShape(Capsule())
+                        }
+                        Spacer()
+                    }
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        if let duration = item.duration {
+                            Text(duration)
+                                .font(.caption2.bold())
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 4)
+                                .background(Color.black.opacity(0.7))
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                        }
                     }
                 }
-                .frame(width: 140, height: 140)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-            } else {
-                Color.gray.opacity(0.2)
-                    .frame(width: 140, height: 140)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                .padding(6)
             }
+            .frame(width: 160, height: 160)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
 
             Text(item.title)
                 .font(.subheadline.weight(.semibold))
@@ -192,6 +230,43 @@ private struct HomeItemCardView: View {
                     .frame(maxWidth: 140, alignment: .trailing)
             }
         }
+    }
+
+    private var episodeBadgeText: String? {
+        guard item.contentType == .episode else { return nil }
+        let type = item.episodeType?.lowercased() ?? ""
+        if type.contains("trailer") {
+            return "Trailer"
+        } else if !type.isEmpty {
+            return "Full"
+        } else {
+            return nil
+        }
+    }
+}
+
+private struct TrendingEpisodesGridSectionView: View {
+    let section: Section
+
+    private let columns: [GridItem] = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
+    ]
+
+    var body: some View {
+        VStack(alignment: .trailing, spacing: 12) {
+            Text(section.name)
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
+            LazyVGrid(columns: columns, alignment: .trailing, spacing: 16) {
+                ForEach(section.identifiedItems) { row in
+                    HomeItemCardView(item: row.item)
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.horizontal)
     }
 }
 

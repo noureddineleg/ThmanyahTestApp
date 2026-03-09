@@ -16,6 +16,8 @@ struct ContentItem: Identifiable, Equatable, Hashable {
     let imageURL: URL?
     let duration: String?
     let contentType: ContentType
+    /// Episode type when content is an episode (e.g. "full", "trailer").
+    let episodeType: String?
     let isPremium: Bool
     let publishedAt: Date?
     /// Number of episodes (podcast) or chapters when provided by API.

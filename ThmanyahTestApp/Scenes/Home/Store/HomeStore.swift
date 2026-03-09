@@ -59,6 +59,7 @@ final class HomeStore: HomeStoreProtocol {
             imageURL: imageURL,
             duration: durationString,
             contentType: contentTypeEnum,
+            episodeType: dto.episodeType,
             isPremium: isPremium,
             publishedAt: publishedAt,
             episodeCount: dto.episodeCount,
