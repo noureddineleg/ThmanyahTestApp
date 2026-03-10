@@ -18,40 +18,44 @@ struct MainTabView: View {
             HomeRootView(homeView: homeView)
                 .tabItem {
                     Image(systemName: "house")
-                    Text("الرئيسية")
+                    Text(L10n.Tab.home)
                 }
 
             searchView
                 .tabItem {
                     Image(systemName: "magnifyingglass")
-                    Text("البحث")
+                    Text(L10n.Tab.search)
                 }
 
             communityPlaceholder
                 .tabItem {
                     Image(systemName: "person.3")
-                    Text("المجتمع")
+                    Text(L10n.Tab.community)
                 }
                 .badge(3)
 
             libraryPlaceholder
                 .tabItem {
                     Image(systemName: "books.vertical")
-                    Text("المكتبة")
+                    Text(L10n.Tab.library)
                 }
 
             sortPlaceholder
                 .tabItem {
                     Image(systemName: "gearshape")
-                    Text("الإعدادات")
+                    Text(L10n.Tab.settings)
                 }
+        }
+        .overlay(alignment: .bottom) {
+            MiniPlayerBanner()
+                .padding(.bottom, 50)
         }
         .environmentObject(navigation)
         .environmentObject(audioPlayback)
     }
 
     private var communityPlaceholder: some View {
-        Text("الإعدادات")
+        Text(L10n.Tab.community)
             .font(AppTypography.title)
             .foregroundStyle(AppColors.textSecondary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -59,7 +63,7 @@ struct MainTabView: View {
     }
 
     private var libraryPlaceholder: some View {
-        Text("الإعدادات")
+        Text(L10n.Tab.library)
             .font(AppTypography.title)
             .foregroundStyle(AppColors.textSecondary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -67,7 +71,7 @@ struct MainTabView: View {
     }
 
     private var sortPlaceholder: some View {
-        Text("الإعدادات")
+        Text(L10n.Tab.settings)
             .font(AppTypography.title)
             .foregroundStyle(AppColors.textSecondary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -75,7 +79,7 @@ struct MainTabView: View {
     }
 }
 
-
+#if DEBUG
 #Preview("MainTabView - Home Loaded") {
     MainTabView(
         homeView: HomeView(viewModel: .previewLoaded),
@@ -91,3 +95,4 @@ struct MainTabView: View {
     )
     .environment(\.layoutDirection, .rightToLeft)
 }
+#endif

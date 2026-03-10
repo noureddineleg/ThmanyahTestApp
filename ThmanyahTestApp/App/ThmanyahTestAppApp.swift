@@ -8,10 +8,15 @@
 import SwiftUI
 
 @main
-struct ThmanyahTestAppApp: App {
+struct ThmanyahApp: App {
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView(
+                homeView: HomeViewFactory.make(),
+                searchView: SearchViewFactory.make()
+            )
+            .environment(\.layoutDirection, .rightToLeft)
         }
     }
 }

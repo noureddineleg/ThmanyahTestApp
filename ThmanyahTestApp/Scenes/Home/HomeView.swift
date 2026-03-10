@@ -40,28 +40,12 @@ struct HomeView: View {
             }
         }
         .toolbar(.hidden, for: .navigationBar)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                headerView
-            }
-            
-            ToolbarItem(placement: .topBarLeading) {
-                    greetingView
-                }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                notificationButton
-            }
-        }
     }
     
     private var headerView: some View {
-//        HStack(spacing: AppSpacing.sm) {
-            Image(systemName: "person.circle.fill")
-                .font(AppTypography.icon)
-                .foregroundColor(AppColors.primary)
-
-//            greetingView
-//        }
+        Image(systemName: "person.circle.fill")
+            .font(AppTypography.icon)
+            .foregroundColor(AppColors.primary)
     }
 
     private var notificationButton: some View {
@@ -82,28 +66,6 @@ struct HomeView: View {
                 .offset(x: 6, y: -6)
         }
     }
-
-//    private var contentView: some View {
-//        ScrollView {
-//            LazyVStack(spacing: AppSpacing.lg) {
-//                contentFilterView
-//
-//                ForEach(viewModel.filteredSections) { section in
-//                    SectionView(section: section)
-//                        .onAppear {
-//                            Task {
-//                                await viewModel.loadMoreSectionsIfNeeded(currentSection: section)
-//                            }
-//                        }
-//                }
-//            }
-//            .padding(.vertical, AppSpacing.md)
-//        }
-//        .scrollIndicators(.hidden)
-//        .refreshable {
-//            await viewModel.refresh()
-//        }
-//    }
     
     private var contentView: some View {
         ScrollView {
@@ -155,7 +117,6 @@ struct HomeView: View {
             notificationButton
         }
         .padding(.horizontal, AppSpacing.md)
-//        .environment(\.layoutDirection, .rightToLeft)
     }
 
     private var contentFilterView: some View {
