@@ -1,5 +1,5 @@
 //
-//  ThmanyahTestAppUITestsLaunchTests.swift
+//  SearchScreenUITests.swift
 //  ThmanyahTestAppUITests
 //
 //  Created by Nour-Eddine Legragui  on 9/3/2026.
@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class ThmanyahTestAppUITestsLaunchTests: XCTestCase {
+final class SearchScreenUITests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
