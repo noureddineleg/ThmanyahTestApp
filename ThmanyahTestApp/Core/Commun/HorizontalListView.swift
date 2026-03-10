@@ -16,7 +16,10 @@ struct HorizontalListView: View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             SectionHeaderView(
                 title: section.name,
-                showSeeAll: section.hasMore
+                showSeeAll: section.hasMore,
+                onSeeAllTapped: {
+                    navigation.push(.sectionAll(section))
+                }
             )
 
             VStack(spacing: AppSpacing.xs) {

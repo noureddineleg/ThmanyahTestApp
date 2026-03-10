@@ -1,42 +1,36 @@
 //
-//  SquareGridView.swift
+//  HomeSectionAllView.swift
 //  ThmanyahTestApp
 //
-//  Created by Nour-Eddine Legragui  on 10/3/2026.
+//  Created by Cursor on 10/3/2026.
 //
 
 import SwiftUI
 
-struct SquareGridView: View {
+struct HomeSectionAllView: View {
     let section: Section
     @EnvironmentObject private var navigation: NavigationManager
     @EnvironmentObject private var audioPlayback: AudioPlaybackManager
 
     var body: some View {
-        VStack(alignment: .leading, spacing: AppSpacing.sm) {
-            SectionHeaderView(
-                title: section.name,
-                showSeeAll: section.hasMore,
-                onSeeAllTapped: {
-                    navigation.push(.sectionAll(section))
-                }
-            )
+        ZStack {
+            AppColors.background.ignoresSafeArea()
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: AppSpacing.sm) {
+            ScrollView {
+                LazyVStack(spacing: AppSpacing.sm) {
                     ForEach(section.identifiedItems) { row in
-                        ContentItemCard(
+                        HorizontalContentRow(
                             item: row.item,
-                            style: .square,
                             onTap: { openDetails(row.item) },
                             onPlay: { playAndOpenReader(row.item) }
                         )
-                        .frame(width: 150)
                     }
                 }
-                .padding(.horizontal, AppSpacing.md)
+                .padding(.vertical, AppSpacing.md)
             }
         }
+        .navigationTitle(section.name)
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private func openDetails(_ item: ContentItem) {
@@ -58,10 +52,12 @@ struct SquareGridView: View {
 }
 
 #if DEBUG
-#Preview("SquareGridView") {
-    SquareGridView(section: PreviewData.squareGridSection)
-        .background(AppColors.background)
-        .environmentObject(NavigationManager())
-        .environmentObject(AudioPlaybackManager())
+#Preview("HomeSectionAllView") {
+    NavigationStack {
+        HomeSectionAllView(section: PreviewData.gridSection)
+    }
+    .environmentObject(NavigationManager())
+    .environmentObject(AudioPlaybackManager())
 }
 #endif
+

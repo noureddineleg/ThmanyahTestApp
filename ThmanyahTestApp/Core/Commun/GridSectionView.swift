@@ -21,7 +21,10 @@ struct GridSectionView: View {
         VStack(alignment: .leading, spacing: AppSpacing.sm) {
             SectionHeaderView(
                 title: section.name,
-                showSeeAll: section.hasMore
+                showSeeAll: section.hasMore,
+                onSeeAllTapped: {
+                    navigation.push(.sectionAll(section))
+                }
             )
 
             LazyVGrid(columns: columns, spacing: AppSpacing.sm) {

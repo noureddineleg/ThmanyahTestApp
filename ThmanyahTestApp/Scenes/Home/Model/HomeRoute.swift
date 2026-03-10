@@ -14,6 +14,7 @@ enum HomeRoute: Hashable, Equatable {
     case audioReader(ContentItem)
     case videoReader(ContentItem)
     case search
+    case sectionAll(Section)
 }
 
 extension HomeRoute {
@@ -32,6 +33,8 @@ extension HomeRoute {
             VideoReaderView(item: item)
         case .search:
             SearchViewFactory.make()
+        case .sectionAll(let section):
+            HomeSectionAllView(section: section)
         }
     }
 }
