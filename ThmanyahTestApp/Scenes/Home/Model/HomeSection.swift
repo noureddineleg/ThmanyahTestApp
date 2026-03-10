@@ -96,6 +96,12 @@ struct HomeSection: Decodable {
     }
 }
 
+extension HomeSection {
+    var baseSectionIdentifier: String {
+        "\(name)-\(type)-\(order)"
+    }
+}
+
 /// Consumes and discards one JSON value to advance the decoder.
 private struct JSONSkip: Decodable {
     init(from decoder: Decoder) throws {

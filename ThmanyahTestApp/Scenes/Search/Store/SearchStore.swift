@@ -20,7 +20,11 @@ final class SearchStore: SearchStoreProtocol {
 
     func search(query: String) async throws -> SearchResult {
         let response = try await service.search(query: query)
-        let sections = response.sections.map { mapToSection($0) }
+        let sections = response.sections
+            .enumerated()
+            .map { index, dto in
+                mapToSection(dto, index: index)
+            }
         return SearchResult(
             query: query,
             sections: sections,
@@ -28,8 +32,8 @@ final class SearchStore: SearchStoreProtocol {
         )
     }
 
-    private func mapToSection(_ dto: HomeSection, hasMore: Bool = false) -> Section {
-        let sectionId = "\(dto.name)-\(dto.type)-\(dto.order)"
+    private func mapToSection(_ dto: HomeSection, index: Int, hasMore: Bool = false) -> Section {
+        let sectionId = "\(dto.baseSectionIdentifier)-search-i\(index)"
         return Section(
             id: sectionId,
             name: dto.name,

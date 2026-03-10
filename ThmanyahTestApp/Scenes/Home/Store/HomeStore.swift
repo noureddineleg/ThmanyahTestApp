@@ -22,12 +22,15 @@ final class HomeStore: HomeStoreProtocol {
         let response = try await service.fetchHomeSections(page: page)
         let hasMore = (response.pagination?.nextPage).map { !$0.isEmpty } ?? false
         return response.sections
-            .map { mapToSection($0, hasMore: hasMore) }
+            .enumerated()
+            .map { index, dto in
+                mapToSection(dto, page: page, index: index, hasMore: hasMore)
+            }
             .sorted { $0.order < $1.order }
     }
 
-    private func mapToSection(_ dto: HomeSection, hasMore: Bool) -> Section {
-        let sectionId = "\(dto.name)-\(dto.type)-\(dto.order)"
+    private func mapToSection(_ dto: HomeSection, page: Int, index: Int, hasMore: Bool) -> Section {
+        let sectionId = "\(dto.baseSectionIdentifier)-p\(page)-i\(index)"
         return Section(
             id: sectionId,
             name: dto.name,

@@ -22,12 +22,17 @@ final class HomeViewModel: ObservableObject {
 
     private let fetchHomeSectionsUseCase: FetchHomeSectionsUseCaseProtocol
     private var allSections: [Section] = []
+    private var sectionSignatures: Set<String> = []
     private var currentPage = 1
     private var hasMorePages = true
     private var isLoadingMore = false
 
     init(fetchHomeSectionsUseCase: FetchHomeSectionsUseCaseProtocol) {
         self.fetchHomeSectionsUseCase = fetchHomeSectionsUseCase
+    }
+
+    private func sectionSignature(_ section: Section) -> String {
+        "\(section.name)|\(section.sectionType)|\(section.contentType)|\(section.order)"
     }
 
     var filteredSections: [Section] {
@@ -41,10 +46,12 @@ final class HomeViewModel: ObservableObject {
         state = .loading
         currentPage = 1
         hasMorePages = true
+        sectionSignatures = []
 
         do {
             let sections = try await fetchHomeSectionsUseCase.execute(page: currentPage)
             allSections = sections
+            sectionSignatures = Set(sections.map(sectionSignature))
             state = .loaded(filteredSections)
         } catch let error as NetworkError {
             state = .error(error.localizedDescription)
@@ -74,7 +81,15 @@ final class HomeViewModel: ObservableObject {
             if newSections.isEmpty {
                 hasMorePages = false
             } else {
-                allSections.append(contentsOf: newSections)
+                let newSignatures = newSections.map(sectionSignature)
+                let hasTrulyNew = newSignatures.contains { !sectionSignatures.contains($0) }
+
+                if hasTrulyNew {
+                    allSections.append(contentsOf: newSections)
+                    newSignatures.forEach { sectionSignatures.insert($0) }
+                } else {
+                    hasMorePages = false
+                }
             }
             state = .loaded(filteredSections)
         } catch {
