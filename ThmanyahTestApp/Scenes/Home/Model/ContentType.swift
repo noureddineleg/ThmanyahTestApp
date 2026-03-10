@@ -8,7 +8,8 @@
 enum ContentType: String, Codable, CaseIterable {
     case podcast = "podcast"
     case episode = "episode"
-    case audiobook = "audiobook"
+    // API uses "audio_book" so we match that raw value for decoding.
+    case audiobook = "audio_book"
     case audioArticle = "audio_article"
 
     var displayName: String {

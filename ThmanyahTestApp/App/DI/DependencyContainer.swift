@@ -60,13 +60,13 @@ final class DependencyContainer {
 
 private final class MockHomeService: HomeServiceProtocol {
     func fetchHomeSections(page: Int) async throws -> HomeSectionsResponse {
-        try await loadJSON(named: "home_sections", type: HomeSectionsResponse.self)
+        try await loadJSON(named: "Home", type: HomeSectionsResponse.self)
     }
 }
 
 private final class MockSearchService: SearchServiceProtocol {
     func search(query: String) async throws -> SearchResponse {
-        try await loadJSON(named: "search_results", type: SearchResponse.self)
+        try await loadJSON(named: "Search", type: SearchResponse.self)
     }
 }
 

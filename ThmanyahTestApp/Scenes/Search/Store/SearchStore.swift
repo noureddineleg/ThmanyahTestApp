@@ -22,7 +22,7 @@ final class SearchStore: SearchStoreProtocol {
         let response = try await service.search(query: query)
         let sections = response.sections.map { mapToSection($0) }
         return SearchResult(
-            query: response.query,
+            query: query,
             sections: sections,
             totalCount: response.totalCount ?? sections.flatMap { $0.items }.count
         )
