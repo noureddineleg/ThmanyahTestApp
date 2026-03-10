@@ -12,8 +12,10 @@ final class DependencyContainer {
 
     #if DEBUG
     private let useMocks = true
+    private let usePreviewDataForHome = true
     #else
     private let useMocks = false
+    private let usePreviewDataForHome = false
     #endif
 
     // Core
@@ -32,9 +34,19 @@ final class DependencyContainer {
         HomeStore(service: homeService)
     }()
 
+    #if DEBUG
+    lazy var fetchHomeSectionsUseCase: FetchHomeSectionsUseCaseProtocol = {
+        if usePreviewDataForHome {
+            return PreviewFetchHomeSectionsUseCase()
+        } else {
+            return FetchHomeSectionsUseCase(repository: homeRepository)
+        }
+    }()
+    #else
     lazy var fetchHomeSectionsUseCase: FetchHomeSectionsUseCaseProtocol = {
         FetchHomeSectionsUseCase(repository: homeRepository)
     }()
+    #endif
 
     // Search
     lazy var searchService: SearchServiceProtocol = {
@@ -80,3 +92,13 @@ private func loadJSON<T: Decodable>(named name: String, type: T.Type) async thro
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     return try decoder.decode(T.self, from: data)
 }
+
+#if DEBUG
+// MARK: - Preview Use Cases
+
+private final class PreviewFetchHomeSectionsUseCase: FetchHomeSectionsUseCaseProtocol {
+    func execute(page: Int) async throws -> [Section] {
+        PreviewData.homeSections
+    }
+}
+#endif
