@@ -465,13 +465,13 @@
 			baseConfigurationReferenceAnchor = B76B3A6E2F5EDD6C0004DCD3 /* ThmanyahTestApp */;
 			baseConfigurationReferenceRelativePath = "Configuration/Env-Prod.xcconfig";
 			buildSettings = {
-				ENABLE_TESTABILITY = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NXYMWDBP2R;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ThmanyahTestApp/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ThamanyahApp;
